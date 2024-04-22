@@ -2,7 +2,7 @@ const cityInput = $('#city-input');
 const cityForm = $('#city-form');
 const cityHistory = $('#city-history');
 const currentDisplay = $('#weather-current');
-const forecastDisplay = $('#weather-forecast');
+const fDisplay = $('#weather-forecast');
 
 function handleFormSubmit(event){
     event.preventDefault();
@@ -91,24 +91,23 @@ function displayForecast(lat, lon){
         if(response.ok){
             response.json().then(function (data){
                 let dayOffset = 0;
-                forecastDisplay.empty();
+                fDisplay.empty();
                 for(i = 0; i < 5; i++){
-                    const forecastCard = $('<div>');
-                    forecastCard.attr('class', 'col-2 bg-secondary text-white text-center border border-light rounded');
-                    const forecastDate = $('<p>');
-                    forecastDate.text(dayjs().add(i + 1, 'day').format("M/DD/YYYY"));
-                    const weatherIcon = $('<img>');
-                    weatherIcon.attr('src', `https://openweathermap.org/img/wn/${data.list[dayOffset].weather[0].icon}@2x.png`);
-                    const forecastTemp = $('<p>');
-                    forecastTemp.text("Temp: " + data.list[dayOffset].main.temp + " °F")
-                    const forecastWind = $('<p>');
-                    forecastWind.text("Wind: " + data.list[dayOffset].wind.speed + " MPH");
-                    const forecastHumidity = $('<p>');
-                    forecastHumidity.text("Humidity: " + data.list[dayOffset].main.humidity + " %");
+                    const fCard = $('<div>');
+                    fCard.attr('class', 'col-2 bg-secondary text-white text-center border border-light rounded');
+                    const fDate = $('<p>');
+                    fDate.text(dayjs().add(i + 1, 'day').format("M/DD/YYYY"));
+                    const wIcon = $('<img>');
+                    wIcon.attr('src', `https://openweathermap.org/img/wn/${data.list[dayOffset].weather[0].icon}@2x.png`);
+                    const fTemp = $('<p>');
+                    fTemp.text("Temp: " + data.list[dayOffset].main.temp + " °F")
+                    const fWind = $('<p>');
+                    fWind.text("Wind: " + data.list[dayOffset].wind.speed + " MPH");
+                    const fHumidity = $('<p>');
+                    fHumidity.text("Humidity: " + data.list[dayOffset].main.humidity + " %");
                     dayOffset = dayOffset + 8;
-
-                    forecastCard.append(forecastDate, weatherIcon, forecastTemp, forecastWind, forecastHumidity);
-                    forecastDisplay.append(forecastCard);
+                    fCard.append(fDate, wIcon, fTemp, fWind, fHumidity);
+                    fDisplay.append(fCard);
                 }
             });
         }
@@ -120,7 +119,7 @@ cityHistory.on('click', '.city-card', function(){
     cityID = $(this).attr('data-id');
     savedCities = getCities();
     currentDisplay.empty();
-    forecastDisplay.empty();
+    fDisplay.empty();
     displayWeather(savedCities[cityID].lat, savedCities[cityID].lon);
     displayForecast(savedCities[cityID].lat, savedCities[cityID].lon);
 });
